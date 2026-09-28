@@ -1,0 +1,104 @@
+---
+import { Image } from 'astro:assets';
+import { FACEBOOK_URL, href, upload } from '../lib/site';
+
+interface Props {
+	/** Starts transparent over the hero and turns white once the page scrolls (homepage). */
+	overlay?: boolean;
+}
+
+const { overlay = false } = Astro.props;
+---
+
+<header class:list={['site-header', { overlay }]} data-overlay={overlay ? '' : undefined}>
+	<a class="logo" href={href('/')} aria-label="Fagriskógur Lodge – home">
+		<Image src={upload('2024/12/cropped-logo-e1734713756987-1.png')} alt="" width={50} height={50} layout="fixed" priority />
+	</a>
+	<nav aria-label="Main">
+		<a class="menu-link" href={href('/')}>Fagriskogur Main</a>
+		{
+			FACEBOOK_URL && (
+				<a class="menu-link icon" href={FACEBOOK_URL} aria-label="Facebook">
+					<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+						<path
+							fill="currentColor"
+							d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"
+						/>
+					</svg>
+				</a>
+			)
+		}
+	</nav>
+</header>
+
+{
+	overlay && (
+		<script>
+			const header = document.querySelector<HTMLElement>('.site-header[data-overlay]')!;
+			const update = () => header.classList.toggle('is-scrolled', scrollY > 10);
+			addEventListener('scroll', update, { passive: true });
+			update();
+		</script>
+	)
+}
+
+<style>
+	.site-header {
+		position: relative;
+		z-index: 40;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: var(--header-h);
+		padding-inline: var(--gutter);
+		background: #fff;
+		border-bottom: 1px solid var(--border);
+	}
+
+	.overlay {
+		position: fixed;
+		inset: 0 0 auto;
+		background: transparent;
+		border-bottom-color: rgba(255, 255, 255, 0.2);
+		transition:
+			background-color 0.3s,
+			box-shadow 0.3s,
+			border-color 0.3s;
+	}
+
+	.overlay.is-scrolled {
+		background: #fff;
+		border-bottom-color: transparent;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	}
+
+	nav {
+		display: flex;
+		align-items: center;
+		gap: 36px;
+	}
+
+	.menu-link {
+		font-family: var(--menu);
+		font-size: 14px;
+		font-weight: 600;
+		color: rgba(48, 49, 51, 0.5);
+		transition: color 0.2s;
+	}
+
+	.menu-link:hover {
+		color: var(--heading);
+	}
+
+	.overlay:not(.is-scrolled) .menu-link {
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	.overlay:not(.is-scrolled) .menu-link:hover {
+		color: #fff;
+	}
+
+	.icon {
+		display: flex;
+	}
+</style>

@@ -1,0 +1,132 @@
+---
+// "The Rooms": big serif titles; hovering one shows that room's photo under the cursor
+// and dims the other titles (Uncode's hover-image title index).
+import { Image } from 'astro:assets';
+import { href, rooms, upload } from '../lib/site';
+---
+
+<section class="rooms bg-dark" id="rooms">
+	<div class="container">
+		<h2 class="eyebrow">The Rooms</h2>
+		<ul>
+			{
+				rooms.map((room) => (
+					<li>
+						<a href={href(`/portfolio/${room.slug}/`)}>
+							<span>{room.name}</span>
+							<Image
+								class="preview"
+								src={upload(room.cover)}
+								alt=""
+								widths={[480, 720, 960, 1440]}
+								sizes="50vw"
+								layout="none"
+							/>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<script>
+	const section = document.querySelector<HTMLElement>('.rooms')!;
+	section.addEventListener('pointermove', (event) => {
+		if (event.pointerType !== 'mouse') return;
+		const box = section.getBoundingClientRect();
+		section.style.setProperty('--x', `${event.clientX - box.left}px`);
+		section.style.setProperty('--y', `${event.clientY - box.top}px`);
+	});
+</script>
+
+<style>
+	.rooms {
+		position: relative;
+		overflow: hidden;
+		padding-block: 144px;
+		text-align: center;
+	}
+
+	.eyebrow {
+		margin-bottom: 54px;
+		font-family: var(--sans);
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1.2;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+	}
+
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	a {
+		display: block;
+		padding: 18px 38px;
+	}
+
+	span {
+		position: relative;
+		z-index: 2;
+		display: block;
+		font-family: var(--serif);
+		font-size: 75px;
+		line-height: 1;
+		transition: opacity 0.3s;
+	}
+
+	.preview {
+		position: absolute;
+		left: var(--x, 50%);
+		top: var(--y, 50%);
+		z-index: 1;
+		width: 50vw;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		opacity: 0;
+		pointer-events: none;
+		transform: translate(-50%, -50%) scale(0.95);
+		transition:
+			opacity 0.3s,
+			transform 0.3s;
+	}
+
+	@media (hover: hover) {
+		ul:has(a:hover) span {
+			opacity: 0.3;
+		}
+		a:hover span {
+			z-index: 3;
+			opacity: 1 !important;
+		}
+		a:hover .preview {
+			opacity: 1;
+			transform: translate(-50%, -50%) scale(1);
+		}
+	}
+
+	@media (max-width: 959px) {
+		.rooms {
+			padding-block: 96px;
+		}
+		span {
+			font-size: 50px;
+		}
+	}
+
+	@media (max-width: 569px) {
+		span {
+			font-size: 35px;
+		}
+		a {
+			padding: 12px;
+		}
+	}
+</style>

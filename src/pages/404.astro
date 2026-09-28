@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/site';
+---
+
+<Base title="Page not found – Fagriskogur">
+	<section class="section">
+		<div class="container">
+			<h1 class="heading">Page not found</h1>
+			<p>The page you were looking for doesn’t exist. <a href={href('/')}>Go to the homepage</a> or <a href={href('/#rooms')}>see the rooms</a>.</p>
+		</div>
+	</section>
+</Base>
+
+<style>
+	.section {
+		min-height: 50vh;
+		text-align: center;
+	}
+
+	p {
+		margin-top: 36px;
+		font-size: 18px;
+	}
+
+	a {
+		text-decoration: underline;
+		color: var(--heading);
+	}
+</style>

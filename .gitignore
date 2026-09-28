@@ -1,0 +1,30 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# Snapshot of the old WordPress site: only the page HTML is committed. The theme/plugin
+# files are licensed Uncode/ThemeForest assets (not ours to publish) and the uploads are
+# ~150 MB; both are re-fetched by `npm run snapshot` while the old site is still up.
+snapshot/wp-content/
+snapshot/wp-includes/

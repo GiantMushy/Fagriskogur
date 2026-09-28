@@ -1,0 +1,553 @@
+[
+	{
+		"slug": "staff-building",
+		"name": "Staff Building",
+		"cover": "2024/12/StaffHouse-1.png",
+		"title": "Staff Building",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Staff Building"
+					},
+					{
+						"p": "Fagriskogur features a separate staff building located 50 meters away from the main lodge, comprising two bedrooms, a kitchen, and a bathroom. These quarters are designated for our dedicated staff members who cater to your needs throughout your stay. However, should your personal staff prefer to utilize this detached accommodation, please feel free to inquire, and we will endeavor to accommodate your request to the best of our ability."
+					},
+					{
+						"img": {
+							"src": "2025/01/StaffBuilding.png"
+						}
+					}
+				]
+			}
+		],
+		"prev": "hot-tubs",
+		"next": "master",
+		"related": [
+			"hot-tubs",
+			"patio",
+			"hottubs",
+			"mancave",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"southern-bedroom"
+		]
+	},
+	{
+		"slug": "hot-tubs",
+		"name": "Hot Tubs",
+		"cover": "2024/12/6Pottur_Amended_Mars2024-scaled.jpg",
+		"title": "Hot Tubs",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Hot Tubs"
+					},
+					{
+						"img": {
+							"src": "2024/12/6Pottur_Amended_Mars2024-scaled.jpg"
+						}
+					}
+				]
+			}
+		],
+		"prev": "patio",
+		"next": "staff-building",
+		"related": [
+			"staff-building",
+			"patio",
+			"hottubs",
+			"mancave",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"southern-bedroom"
+		]
+	},
+	{
+		"slug": "patio",
+		"name": "Patio",
+		"cover": "2024/12/6SettPallur.jpg",
+		"title": "Patio",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Patio"
+					},
+					{
+						"p": "Outside, the enchantment continues with a spacious deck and a 9-hole folf/disk golf course, offering endless opportunities for relaxation and recreation amidst the beauty of nature. Whether you’re enjoying a family game on the lawn or savoring the tranquility of the forest, every moment at Fagriskogur Lodge is a cherished memory in the making."
+					},
+					{
+						"row": [
+							{
+								"src": "2024/12/6SettPallur.jpg"
+							},
+							{
+								"src": "2024/12/Sunset.jpg",
+								"aspect": 1.5042
+							}
+						]
+					},
+					{
+						"row": [
+							{
+								"src": "2024/12/6StolarUtiPalli-scaled.jpg",
+								"aspect": 1.5006
+							},
+							{
+								"src": "2024/12/6N_Lights_Balcony_Mars2024-scaled.jpg",
+								"aspect": 1.4997
+							}
+						]
+					}
+				]
+			},
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Cigar Lounge & Grill"
+					},
+					{
+						"p": "We trust you will appreciate the no smoking policy of the house. The grill area however, which our chefs use to flame grill our exquisite Icelandic lamb to your liking, offers an asylum for cigar aficionados without being exposed to the Icelandic elements."
+					},
+					{
+						"img": {
+							"src": "2024/12/6Grill_Reyksvaedi.jpg",
+							"aspect": 2
+						}
+					}
+				]
+			}
+		],
+		"prev": "hottubs",
+		"next": "hot-tubs",
+		"related": [
+			"hottubs",
+			"mancave",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"southern-bedroom",
+			"master",
+			"staff-building"
+		]
+	},
+	{
+		"slug": "hottubs",
+		"name": "Sauna & Gym",
+		"cover": "2024/12/5bSauna_Fagriskogur_mars2024-scaled.jpg",
+		"title": "Sauna & Gym",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Gym"
+					},
+					{
+						"p": "Contains a treadmill, stationary bike, a bench and some dumbbells (2-20kg)."
+					},
+					{
+						"img": {
+							"src": "2024/12/5IMG_4052-scaled.jpg"
+						}
+					}
+				]
+			},
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Sauna"
+					},
+					{
+						"p": "The very first saltstone-walled sauna in Iceland. Also includes LED lights to perfect the desired mood."
+					},
+					{
+						"img": {
+							"src": "2024/12/5bIMG_4055-scaled.jpg"
+						}
+					},
+					{
+						"img": {
+							"src": "2024/12/5bSauna_Fagriskogur_mars2024-scaled.jpg",
+							"aspect": 1.5
+						}
+					}
+				]
+			}
+		],
+		"prev": "mancave",
+		"next": "patio",
+		"related": [
+			"patio",
+			"mancave",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"southern-bedroom",
+			"master",
+			"staff-building"
+		]
+	},
+	{
+		"slug": "mancave",
+		"name": "Game Room",
+		"cover": "2024/12/5aIMG_4039-scaled.jpg",
+		"title": "Game Room",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Game Room"
+					},
+					{
+						"p": "Indulge your competitive Spirit in the Game Room! Complete with a 9ft pool table, ping pong, and chess."
+					},
+					{
+						"img": {
+							"src": "2024/12/5aIMG_4042-scaled.jpg"
+						}
+					},
+					{
+						"img": {
+							"src": "2024/12/5aIMG_4039-scaled.jpg"
+						}
+					}
+				]
+			}
+		],
+		"prev": "northern-bathroom",
+		"next": "hottubs",
+		"related": [
+			"patio",
+			"hottubs",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"southern-bedroom",
+			"master",
+			"staff-building"
+		]
+	},
+	{
+		"slug": "northern-bathroom",
+		"name": "Guest Bathrooms",
+		"cover": "2024/12/4IMG_3976-scaled.jpg",
+		"title": "Guest Bathrooms",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Guest Bathrooms"
+					},
+					{
+						"p": "While the Thingvellir and Gullfoss bedrooms have their own beautiful en-suite bathrooms, the Geysir, Kerid and Faxi bedrooms share a common spacious bathroom which offers both an inviting hot tub and a shower. But not to worry, there are in total five bathrooms and toilets in the Fagriskogur Lodge. Because of this bathroom configuration Fagriskogur Lodge has proven to be a perfect retreat for a family of up to 10 or three adult couples each of which will have their own dedicated bathroom."
+					}
+				]
+			},
+			{
+				"half": true,
+				"blocks": [
+					{
+						"h": "Master Bedroom"
+					},
+					{
+						"img": {
+							"src": "2024/12/3IMG_4024-scaled.jpg",
+							"aspect": 0.7996
+						}
+					}
+				]
+			},
+			{
+				"half": true,
+				"blocks": [
+					{
+						"h": "Gym"
+					},
+					{
+						"img": {
+							"src": "2024/12/5IMG_4061-scaled.jpg",
+							"aspect": 0.8003
+						}
+					}
+				]
+			},
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Main Guest Bathroom"
+					},
+					{
+						"row": [
+							{
+								"src": "2024/12/guestBathroom.jpg"
+							},
+							{
+								"src": "2024/12/guestBath-1.jpg"
+							}
+						]
+					}
+				]
+			},
+			{
+				"half": true,
+				"blocks": [
+					{
+						"h": "Game Room"
+					},
+					{
+						"img": {
+							"src": "2024/12/5_WC_downstairs-scaled.jpg",
+							"aspect": 0.8003
+						}
+					}
+				]
+			},
+			{
+				"half": true,
+				"blocks": [
+					{
+						"h": "Gullfoss Bedroom"
+					},
+					{
+						"img": {
+							"src": "2024/12/4Bathroom_Amended_April1.jpg",
+							"aspect": 0.7999
+						}
+					}
+				]
+			}
+		],
+		"prev": "eastern-bedroom",
+		"next": "mancave",
+		"related": [
+			"patio",
+			"hottubs",
+			"mancave",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"southern-bedroom",
+			"master",
+			"staff-building"
+		]
+	},
+	{
+		"slug": "eastern-bedroom",
+		"name": "Kerid Bedroom",
+		"cover": "2024/12/4Bedroom1-scaled.jpg",
+		"title": "Kerid Bedroom",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Kerid Bedroom"
+					},
+					{
+						"p": "Kerid offers a 16 sqm room with flexible sleeping options—a king-size bed that can be converted into two singles. Ideal for versatility, it ensures comfort in any arrangement."
+					},
+					{
+						"img": {
+							"src": "2024/12/4Bedroom1-scaled.jpg"
+						}
+					}
+				]
+			}
+		],
+		"prev": "northern-bedroom",
+		"next": "northern-bathroom",
+		"related": [
+			"patio",
+			"hottubs",
+			"mancave",
+			"northern-bathroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"southern-bedroom",
+			"master",
+			"staff-building"
+		]
+	},
+	{
+		"slug": "northern-bedroom",
+		"name": "Faxi Bedroom",
+		"cover": "2024/12/4Bedroom4-scaled.jpg",
+		"title": "Faxi Bedroom",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Faxi Bedroom"
+					},
+					{
+						"p": "Faxi is a 9 sqm charming room featuring a queen-size bed, embodying the spirit of the Faxi waterfall which you will find on the way to Geysir—small yet breathtaking. Its intimate setting promises comfort and tranquility."
+					},
+					{
+						"img": {
+							"src": "2024/12/4Bedroom4-scaled.jpg"
+						}
+					}
+				]
+			}
+		],
+		"prev": "western-bedroom",
+		"next": "eastern-bedroom",
+		"related": [
+			"patio",
+			"hottubs",
+			"mancave",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"western-bedroom",
+			"southern-bedroom",
+			"master",
+			"staff-building"
+		]
+	},
+	{
+		"slug": "western-bedroom",
+		"name": "Geysir Bedroom",
+		"cover": "2024/12/4Bedroom3-scaled.jpg",
+		"title": "Geysir Bedroom",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Geysir Bedroom"
+					},
+					{
+						"p": "With a king-size bed and direct outdoor hot tub access, this 16 sqm bedroom merges comfort with nature, allowing you to enjoy serene surroundings right from your doorstep."
+					},
+					{
+						"img": {
+							"src": "2024/12/4Bedroom3-scaled.jpg"
+						}
+					}
+				]
+			}
+		],
+		"prev": "southern-bedroom",
+		"next": "northern-bedroom",
+		"related": [
+			"patio",
+			"hottubs",
+			"mancave",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"southern-bedroom",
+			"master",
+			"staff-building"
+		]
+	},
+	{
+		"slug": "southern-bedroom",
+		"name": "Gullfoss Bedroom",
+		"cover": "2024/12/4Bedroom2-scaled.jpg",
+		"title": "Gullfoss Bedroom",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Gullfoss Bedroom"
+					},
+					{
+						"p": "This 20 sqm suite includes a king-size bed and offers direct access to the hot tubs outside. The ensuite bathroom is exquisitely designed, making it a perfect retreat for wellness and relaxation."
+					},
+					{
+						"img": {
+							"src": "2024/12/4Bedroom2-scaled.jpg"
+						}
+					},
+					{
+						"img": {
+							"src": "2024/12/4Bathroom_Amended_April1.jpg",
+							"aspect": 1.5
+						}
+					}
+				]
+			}
+		],
+		"prev": "master",
+		"next": "western-bedroom",
+		"related": [
+			"patio",
+			"hottubs",
+			"mancave",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"master",
+			"staff-building"
+		]
+	},
+	{
+		"slug": "master",
+		"name": "Thingvellir Suite",
+		"cover": "2024/12/3BedroomSuite-scaled.jpg",
+		"title": "Thingvellir Suite",
+		"cards": [
+			{
+				"half": false,
+				"blocks": [
+					{
+						"h": "Thingvellir - 2nd floor Master Suite"
+					},
+					{
+						"p": "The Thingvellir Master Suite is a grand 42 sqm space with a 20 sqm balcony offering breathtaking views of the Ingólfur mountain. Enjoy a California King bed and a luxurious ensuite bathroom with a walk-in shower and a soaking tub, designed to enhance relaxation"
+					},
+					{
+						"img": {
+							"src": "2024/12/3BedroomSuite-scaled.jpg"
+						}
+					},
+					{
+						"img": {
+							"src": "2024/12/3IMG_4035-scaled.jpg"
+						}
+					},
+					{
+						"img": {
+							"src": "2024/12/3IMG_4024-scaled.jpg"
+						}
+					}
+				]
+			}
+		],
+		"prev": "staff-building",
+		"next": "southern-bedroom",
+		"related": [
+			"patio",
+			"hottubs",
+			"mancave",
+			"northern-bathroom",
+			"eastern-bedroom",
+			"northern-bedroom",
+			"western-bedroom",
+			"southern-bedroom",
+			"staff-building"
+		]
+	}
+]

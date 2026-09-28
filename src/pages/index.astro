@@ -1,0 +1,425 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Collage from '../components/Collage.astro';
+import RoomsList from '../components/RoomsList.astro';
+import { upload } from '../lib/site';
+
+// The destination links are as on the live site (three of them point at the wrong place).
+const attractions = [
+	{ name: 'Gullfoss', url: 'http://gullfoss.is', image: '2024/12/Gullfoss.webp' },
+	{ name: 'Geysir', url: 'https://www.south.is/en/place/geysir-geothermal-area', image: '2024/12/Geysir-1.png' },
+	{ name: 'Þingvellir', url: 'http://thingvellir.is', image: '2024/12/thingvellir-scaled.avif' },
+	{ name: 'Ice Caves', url: 'https://www.south.is/en/place/geysir-geothermal-area', image: '2024/12/IceCave-1.png' },
+	{ name: 'Reykholt', url: 'http://gullfoss.is', image: '2024/12/Reykholt_2024.jpeg' },
+	{ name: 'Friðheimar', url: 'https://www.south.is/en/place/geysir-geothermal-area', image: '2024/12/Fridheimar-19.jpeg' },
+];
+---
+
+<Base title="Fagriskogur – Fagriskogur Luxury Resort" overlayHeader>
+	<section class="hero bg-dark">
+		<Image
+			class="hero-bg"
+			src={upload('2024/12/1Bakvid_Mars2024-scaled.jpg')}
+			alt=""
+			widths={[768, 1280, 1920, 2560]}
+			sizes="100vw"
+			layout="none"
+			priority
+		/>
+		<div class="hero-text">
+			<h1>Fagriskógur Lodge</h1>
+			<p>Golden Circle, Iceland</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container split">
+			<Collage backRight="2024/12/aurora.jpg" backLeft="2024/12/2IMG_3962-scaled.jpg" front="2024/12/1aEntrance.jpg" />
+			<div class="stack lead">
+				<h2 class="heading">Welcome to the Fagriskógur Lodge!</h2>
+				<p>
+					Indulge in the epitome of luxury and tranquility at Fagriskogur Lodge, an exquisite retreat for family and
+					friends nestled in the heart of Iceland’s enchanting landscapes. As you step into this meticulously crafted
+					sanctuary, you’re welcomed by an ambiance of warmth and serenity, inviting you to unwind and create cherished
+					memories with your loved ones.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-light map-section">
+		<div class="container split">
+			<div class="stack lead">
+				<h2 class="heading">Perfectly Placed in the Golden Circle</h2>
+				<p>
+					Ideally situated on the famed Golden Circle route, Fagriskogur Lodge offers easy access to some of Iceland’s
+					most iconic attractions.
+				</p>
+			</div>
+			<Image
+				src={upload('2024/12/GoldenCircle-1.png')}
+				alt="Map of the Golden Circle: Reykjavík, Thingvellir, Geysir, Gullfoss and Kerid, with Fagriskógur Lodge"
+				widths={[600, 800]}
+				sizes="(max-width: 959px) 100vw, 600px"
+			/>
+		</div>
+	</section>
+
+	<section class="section side-label-section">
+		<span class="side-label left" aria-hidden="true">Ancient History</span>
+		<div class="container split top">
+			<Collage backRight="2024/12/old4.png" backLeft="2024/12/old1.png" front="2024/12/old3.png" />
+			<div class="stack lead">
+				<h2 class="heading">A Rich Heritage of Family Retreat</h2>
+				<div class="prose">
+					<p>
+						Rebuilt from ground-up in 2022, the original Fagriskogur was built in 1942 and the site has been a
+						cherished family retreat for generations.
+					</p>
+					<p>
+						Enveloped by the lush forest planted by the family over half a century ago, the lodge exudes a sense of
+						timeless tranquility and natural beauty. Here, amidst the rustling leaves and gentle whispers of the wind,
+						you’ll find a haven to relax, recharge, and reconnect with your loved ones.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section bg-light side-label-section">
+		<span class="side-label right" aria-hidden="true">Service</span>
+		<div class="container split media-first-on-mobile">
+			<div class="stack lead">
+				<h2 class="heading sans">Unique emotions with genuine hospitality</h2>
+				<div class="prose">
+					<p>
+						At Fagriskogur Lodge, your comfort and satisfaction are our top priorities. Our dedicated staff, including
+						skilled chefs and attentive waiters, are on hand to ensure that every moment of your stay is nothing short
+						of perfection. From the tantalizing aromas of freshly brewed coffee and full breakfast each morning to the
+						exquisite flavors of gourmet dinners prepared with locally sourced ingredients, every culinary experience
+						is a celebration of Icelandic hospitality and gastronomy.
+					</p>
+					<p>
+						Step inside and discover the unparalleled comfort and elegance of Fagriskogur Lodge. The spacious living
+						area and a crackling fireplace, offers the perfect setting for cozy evenings with family and friends.
+					</p>
+				</div>
+			</div>
+			<Collage
+				backRight="2024/12/5aIMG_4069-scaled.jpg"
+				backLeft="2024/12/2Arinn_C.jpg"
+				front="2024/12/2IMG_3960-scaled.jpg"
+			/>
+		</div>
+	</section>
+
+	<RoomsList />
+
+	<section class="section iceland">
+		<div class="container">
+			<div class="narrow prose">
+				<h2 class="heading">Amazing Iceland</h2>
+				<p>
+					Take a deep breath and enjoy the moment. Wherever you go there you are. Enjoy the Aurora Borealis, the sunset
+					or at times breathtaking sunrise. The extreme northern location of this amazing island creates ample jaw
+					dropping moments with the sky above us as the theatre.
+				</p>
+				<p>
+					These pictures are taken 20 minutes apart on an iphone from the balcony one October morning. No photoshop or
+					other tricks – strictly honest unedited pictures.
+				</p>
+			</div>
+			<div class="photo-pair">
+				<Image src={upload('2024/12/sunrise-1.jpg')} alt="Sunrise seen from the lodge balcony" />
+				<Image src={upload('2024/12/clouds.jpg')} alt="The same view twenty minutes later" />
+			</div>
+			<p class="caption">
+				And these photos of Aurora Borealis are taken from the Lodge on a clear sky January night. Again, with no digital
+				trickery
+			</p>
+			<div class="photo-pair">
+				<Image
+					src={upload('2024/12/6N_Lights_Balcony_Mars2024-scaled.jpg')}
+					alt="Northern lights over the lodge balcony"
+					widths={[600, 1200]}
+					sizes="(max-width: 569px) 100vw, 50vw"
+				/>
+				<Image src={upload('2024/12/StaffHouse-1.png')} alt="Northern lights over the staff building" />
+			</div>
+		</div>
+	</section>
+
+	<section class="section bg-light golden-circle">
+		<div class="container">
+			<div class="narrow prose">
+				<h2>Golden Circle</h2>
+				<p>
+					Ideally situated on the famed Golden Circle route, Fagriskogur Lodge offers easy access to some of Iceland’s
+					most iconic attractions.
+				</p>
+				<p>
+					From the majestic Gullfoss waterfall to the bubbling geothermal wonders of Geysir and the historic grounds of
+					Thingvellir, every moment promises to be a journey of discovery and wonder. Nearby, the charming town of
+					Selfoss beckons with its quaint shops and cultural delights, while the secret lagoon of Fludir offers a
+					secluded oasis of relaxation. How about an ice cave exploration or lunch in Reykholt while learning about farm
+					life in Iceland at Fridheimar, where they harness geothermal energy and use artificial lights to grow tomatoes
+					all year round.
+				</p>
+			</div>
+			<ul class="attractions">
+				{
+					attractions.map((place) => (
+						<li>
+							<a href={place.url} target="_blank" rel="noopener">
+								<Image
+									src={upload(place.image)}
+									alt=""
+									widths={[400, 800]}
+									sizes="(max-width: 569px) 100vw, 400px"
+									layout="none"
+								/>
+								<h3>{place.name}</h3>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+</Base>
+
+<style>
+	.hero {
+		position: relative;
+		display: grid;
+		place-items: center;
+		min-height: 100vh;
+		min-height: 100svh;
+		overflow: hidden;
+		text-align: center;
+	}
+
+	.hero-bg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center bottom;
+		animation: kenburns 15s ease forwards;
+	}
+
+	/* Uncode's bottom divider: fades the photo into the dark background. */
+	.hero::after {
+		content: '';
+		position: absolute;
+		inset: auto 0 0;
+		height: 60%;
+		background: linear-gradient(to bottom, rgba(27, 29, 31, 0), var(--dark));
+	}
+
+	.hero-text {
+		position: relative;
+		z-index: 1;
+		padding-inline: var(--gutter);
+	}
+
+	.hero h1 {
+		font-family: var(--serif);
+		font-size: 100px;
+		font-weight: 400;
+		line-height: 1;
+		animation: rise 1s ease both;
+	}
+
+	.hero p {
+		margin-top: 36px;
+		font-family: var(--serif);
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		animation: rise 1s 0.1s ease both;
+	}
+
+	@media (max-width: 959px) {
+		.hero h1 {
+			font-size: 66.67px;
+		}
+	}
+
+	@media (max-width: 569px) {
+		.hero h1 {
+			font-size: 35px;
+		}
+	}
+
+	@keyframes kenburns {
+		from {
+			transform: scale(1);
+		}
+		to {
+			transform: scale(1.15);
+		}
+	}
+
+	@keyframes rise {
+		from {
+			opacity: 0;
+			transform: translateY(40px);
+		}
+	}
+
+	.split.top {
+		align-items: start;
+	}
+
+	@media (max-width: 959px) {
+		.media-first-on-mobile > :last-child {
+			order: -1;
+		}
+	}
+
+	.map-section {
+		padding-block: 36px;
+	}
+
+	.side-label-section {
+		position: relative;
+	}
+
+	/* Vertical labels in the page margin; hidden on tablet and mobile like the original. */
+	.side-label {
+		position: absolute;
+		top: 50%;
+		font-family: var(--sans);
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--heading);
+		white-space: nowrap;
+	}
+
+	.side-label.left {
+		left: max(18px, calc(50% - 636px - 18px));
+		transform: translate(-50%, -50%) rotate(-90deg);
+	}
+
+	.side-label.right {
+		right: max(18px, calc(50% - 636px - 18px));
+		transform: translate(50%, -50%) rotate(90deg);
+	}
+
+	@media (max-width: 1199px) {
+		.side-label {
+			display: none;
+		}
+	}
+
+	.narrow {
+		max-width: 900px;
+		margin-inline: auto;
+	}
+
+	.iceland .heading {
+		margin-bottom: 36px;
+	}
+
+	.photo-pair {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 36px;
+		margin-top: 36px;
+	}
+
+	.photo-pair :global(img) {
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+	}
+
+	.caption {
+		max-width: 846px;
+		margin: 54px auto 18px;
+		text-align: center;
+	}
+
+	@media (max-width: 569px) {
+		.photo-pair {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.golden-circle .narrow {
+		text-align: center;
+	}
+
+	.golden-circle h2 {
+		font-family: var(--sans);
+		font-size: 35px;
+		font-weight: 400;
+		line-height: 1.5;
+		color: var(--heading);
+	}
+
+	.attractions {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 36px;
+		margin: 72px 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.attractions a {
+		position: relative;
+		display: block;
+		overflow: hidden;
+	}
+
+	.attractions :global(img) {
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		transition: transform 0.6s ease;
+	}
+
+	.attractions a:hover :global(img) {
+		transform: scale(1.05);
+	}
+
+	.attractions a::after {
+		content: '';
+		position: absolute;
+		inset: 50% 0 0;
+		background: linear-gradient(to top, rgba(27, 29, 31, 0.7), rgba(27, 29, 31, 0));
+	}
+
+	.attractions h3 {
+		position: absolute;
+		inset: auto 0 36px;
+		z-index: 1;
+		font-family: var(--sans);
+		font-size: 24px;
+		font-weight: 400;
+		line-height: 1.2;
+		color: #fff;
+		text-align: center;
+	}
+
+	@media (max-width: 959px) {
+		.attractions {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 569px) {
+		.attractions {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

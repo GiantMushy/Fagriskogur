@@ -1,0 +1,156 @@
+/* Values taken from the live WordPress/Uncode site (computed styles at 1424px wide). */
+:root {
+	--dark: #1b1d1f;
+	--light: #f7f7f7;
+	--heading: #303133;
+	--text: #777;
+	--border: #eaeaea;
+
+	--serif: 'EB Garamond', Georgia, serif;
+	--sans: 'Barlow', Arial, sans-serif;
+	--ui: 'Jost', Arial, sans-serif;
+	--menu: 'Inter', Arial, sans-serif;
+	--body: Arial, Helvetica, sans-serif;
+
+	--gutter: 36px;
+	--container: 1272px;
+	--section-pad: 108px;
+	--header-h: 122px;
+}
+
+@media (max-width: 959px) {
+	:root {
+		--section-pad: 72px;
+		--header-h: 86px;
+	}
+}
+
+@media (max-width: 569px) {
+	:root {
+		--gutter: 18px;
+		--section-pad: 54px;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	background: #fff;
+	color: var(--text);
+	font-family: var(--body);
+	font-size: 15px;
+	line-height: 1.75;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+	margin: 0;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+.container {
+	width: 100%;
+	max-width: calc(var(--container) + 2 * var(--gutter));
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+
+.section {
+	padding-block: var(--section-pad);
+}
+
+.bg-light {
+	background: var(--light);
+}
+
+.bg-dark {
+	background: var(--dark);
+	color: #fff;
+}
+
+/* Two columns with Uncode's 72px gutter; stacks below 960px. */
+.split {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 72px;
+	align-items: center;
+}
+
+@media (max-width: 959px) {
+	.split {
+		grid-template-columns: 1fr;
+		gap: 36px;
+	}
+}
+
+.heading {
+	font-family: var(--serif);
+	font-weight: 400;
+	font-size: 50px;
+	line-height: 1.2;
+	color: var(--heading);
+}
+
+.heading.sans {
+	font-family: var(--sans);
+}
+
+@media (max-width: 959px) {
+	.heading {
+		font-size: 33.33px;
+	}
+}
+
+.lead p {
+	font-size: 18px;
+	line-height: 1.75;
+}
+
+.stack > * + * {
+	margin-top: 36px;
+}
+
+.prose > * + * {
+	margin-top: 1.5em;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

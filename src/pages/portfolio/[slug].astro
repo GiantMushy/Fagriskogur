@@ -1,0 +1,300 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { href, roomBySlug, rooms, upload, type Photo, type Room } from '../../lib/site';
+
+export const getStaticPaths = (() => rooms.map((room) => ({ params: { slug: room.slug }, props: { room } }))) satisfies GetStaticPaths;
+
+const { room } = Astro.props as { room: Room };
+const prev = roomBySlug(room.prev);
+const next = roomBySlug(room.next);
+const related = room.related.map(roomBySlug);
+const sizes = (half: boolean) => (half ? '(max-width: 959px) calc(100vw - 144px), 438px' : '(max-width: 1127px) calc(100vw - 144px), 984px');
+const firstText = room.cards.flatMap((c) => c.blocks).find((b) => 'p' in b);
+const crop = (photo: Photo) => (photo.aspect ? `aspect-ratio: ${photo.aspect}; object-fit: cover` : undefined);
+---
+
+<Base title={`${room.title} – Fagriskogur`} description={firstText && 'p' in firstText ? firstText.p : undefined}>
+	<div class="container cards">
+		{
+			room.cards.map((card, i) => (
+				<article class:list={['card', { half: card.half }]}>
+					{card.blocks.map((block) =>
+						'h' in block ? (
+							i === 0 && block === card.blocks[0] ? <h1>{block.h}</h1> : <h2>{block.h}</h2>
+						) : 'p' in block ? (
+							<p>{block.p}</p>
+						) : 'img' in block ? (
+							<Image
+								src={upload(block.img.src)}
+								alt={room.name}
+								widths={[492, 984, 1968]}
+								sizes={sizes(card.half)}
+								style={crop(block.img)}
+							/>
+						) : (
+							<div class="pair">
+								{block.row.map((photo) => (
+									<Image src={upload(photo.src)} alt={room.name} widths={[438, 876]} sizes={sizes(true)} style={crop(photo)} />
+								))}
+							</div>
+						),
+					)}
+				</article>
+			))
+		}
+	</div>
+
+	<section class="related">
+		<div class="container narrow">
+			<h2>Related Works</h2>
+			<ul class="carousel">
+				{
+					related.map((item) => (
+						<li>
+							<a href={href(`/portfolio/${item.slug}/`)}>
+								<Image
+									src={upload(item.cover)}
+									alt=""
+									widths={[328, 656]}
+									sizes="(max-width: 959px) calc(100vw - 72px), 328px"
+									layout="none"
+								/>
+								<h3>{item.name}</h3>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<div class="dots" aria-hidden="true"></div>
+		</div>
+	</section>
+
+	<nav class="pager" aria-label="Rooms">
+		<div class="container narrow">
+			<a href={href(`/portfolio/${prev.slug}/`)} rel="prev">
+				<span aria-hidden="true">←</span><span class="label">{prev.name}</span>
+			</a>
+			<a class="all" href={href('/#rooms')} aria-label="All rooms">
+				<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+					<path
+						fill="currentColor"
+						d="M0 0h3v3H0zm4.5 0h3v3h-3zM9 0h3v3H9zM0 4.5h3v3H0zm4.5 0h3v3h-3zM9 4.5h3v3H9zM0 9h3v3H0zm4.5 0h3v3h-3zM9 9h3v3H9z"
+					/>
+				</svg>
+			</a>
+			<a href={href(`/portfolio/${next.slug}/`)} rel="next">
+				<span class="label">{next.name}</span><span aria-hidden="true">→</span>
+			</a>
+		</div>
+	</nav>
+</Base>
+
+<script>
+	// Page dots for the related-rooms strip (3 per page on desktop, 1 on mobile).
+	for (const section of document.querySelectorAll<HTMLElement>('.related')) {
+		const track = section.querySelector<HTMLElement>('.carousel')!;
+		const dots = section.querySelector<HTMLElement>('.dots')!;
+		const render = () => {
+			const pages = Math.max(1, Math.round(track.scrollWidth / track.clientWidth));
+			const current = Math.round(track.scrollLeft / track.clientWidth);
+			if (dots.childElementCount !== pages) {
+				dots.replaceChildren(
+					...Array.from({ length: pages }, (_, i) => {
+						const dot = document.createElement('button');
+						dot.type = 'button';
+						dot.tabIndex = -1;
+						dot.addEventListener('click', () => track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }));
+						return dot;
+					}),
+				);
+			}
+			[...dots.children].forEach((dot, i) => dot.classList.toggle('active', i === current));
+		};
+		track.addEventListener('scroll', render, { passive: true });
+		addEventListener('resize', render);
+		render();
+	}
+</script>
+
+<style>
+	.narrow {
+		max-width: calc(1056px + 2 * var(--gutter));
+	}
+
+	.cards {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 36px;
+		max-width: calc(1056px + 2 * var(--gutter));
+		padding-block: 36px 72px;
+	}
+
+	.card {
+		grid-column: 1 / -1;
+		padding: 36px;
+		border-radius: 12px;
+		background: var(--light);
+	}
+
+	.card.half {
+		grid-column: auto;
+	}
+
+	@media (max-width: 959px) {
+		.card.half {
+			grid-column: 1 / -1;
+		}
+	}
+
+	@media (max-width: 569px) {
+		.card {
+			padding: 24px;
+		}
+	}
+
+	.card h1,
+	.card h2 {
+		font-family: var(--serif);
+		font-size: 29px;
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--heading);
+	}
+
+	.card > * + * {
+		margin-top: 36px;
+	}
+
+	.card > h1 + p,
+	.card > h2 + p {
+		margin-top: 18px;
+	}
+
+	.card :global(img) {
+		width: 100%;
+	}
+
+	.pair {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 36px;
+	}
+
+	@media (max-width: 569px) {
+		.pair {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.related {
+		padding-block: 72px;
+		border-top: 1px solid var(--border);
+		font-family: var(--ui);
+		text-align: center;
+	}
+
+	.related h2 {
+		margin-bottom: 54px;
+		font-size: 18px;
+		font-weight: 500;
+		color: var(--heading);
+	}
+
+	.carousel {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: calc((100% - 72px) / 3);
+		gap: 36px;
+		margin: 0;
+		padding: 0;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		list-style: none;
+	}
+
+	.carousel::-webkit-scrollbar {
+		display: none;
+	}
+
+	.carousel li {
+		scroll-snap-align: start;
+	}
+
+	.carousel :global(img) {
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+	}
+
+	.carousel h3 {
+		margin-top: 36px;
+		font-size: 15px;
+		font-weight: 500;
+		color: var(--heading);
+	}
+
+	@media (max-width: 959px) {
+		.carousel {
+			grid-auto-columns: 100%;
+		}
+	}
+
+	.dots {
+		display: flex;
+		justify-content: center;
+		gap: 12px;
+		margin-top: 54px;
+	}
+
+	.dots :global(button) {
+		width: 8px;
+		height: 8px;
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background: #ccc;
+		cursor: pointer;
+	}
+
+	.dots :global(button.active) {
+		background: var(--heading);
+	}
+
+	.pager {
+		border-top: 1px solid var(--border);
+		font-family: var(--ui);
+		font-size: 15px;
+		font-weight: 500;
+		color: var(--heading);
+	}
+
+	.pager .container {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		padding-block: 36px;
+	}
+
+	.pager a {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.pager a:hover {
+		opacity: 0.6;
+	}
+
+	.pager [rel='next'] {
+		justify-self: end;
+	}
+
+	@media (max-width: 569px) {
+		.pager .label {
+			display: none;
+		}
+	}
+</style>

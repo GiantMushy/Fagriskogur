@@ -1,18 +1,14 @@
 ---
-const emails = ['fagriskogur@gmail.com', 'bjarnith@live.com', 'stokgulrot@gmail.com'];
-const location = ['Grímsnes – og Grafningshreppur', '805 – Iceland', 'Hafnafjörður, 220 Iceland'];
+// Contact block on every page. The header's "Plan your stay" button links here.
+import { CONTACT_EMAIL } from '../lib/site';
 ---
 
-<footer class="bg-dark">
-	<div class="container section columns">
-		<div>
-			<h2>Contact Us</h2>
-			<p>{emails.map((email) => <><a href={`mailto:${email}`}>{email}</a><br /></>)}</p>
-		</div>
-		<div>
-			<h2>Location</h2>
-			<p>{location.map((line) => <>{line}<br /></>)}</p>
-		</div>
+<footer class="bg-dark" id="contact">
+	<div class="container section contact">
+		<p class="eyebrow">Contact Us</p>
+		<h2>Plan your stay</h2>
+		<p class="lead">Get in touch to check dates and arrange your visit.</p>
+		<a class="button" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
 	</div>
 	<div class="copyright">
 		<p>© {new Date().getFullYear()} Fagriskogur. All rights reserved</p>
@@ -24,33 +20,41 @@ const location = ['Grímsnes – og Grafningshreppur', '805 – Iceland', 'Hafna
 		font-family: var(--sans);
 	}
 
-	.columns {
+	.contact {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 72px;
+		justify-items: center;
+		text-align: center;
 	}
 
-	@media (max-width: 569px) {
-		.columns {
-			grid-template-columns: 1fr;
-			gap: 36px;
-		}
+	.eyebrow {
+		color: rgba(255, 255, 255, 0.6);
 	}
 
 	h2 {
-		margin-bottom: 18px;
-		font-size: 24px;
+		margin-top: 24px;
+		font-family: var(--serif);
+		font-size: 50px;
 		font-weight: 400;
-		line-height: 1.5;
+		line-height: 1.2;
 	}
 
-	p {
+	.lead {
+		margin-top: 18px;
 		font-size: 18px;
-		line-height: 1.75;
+		color: rgba(255, 255, 255, 0.75);
 	}
 
-	a:hover {
-		opacity: 0.7;
+	.button {
+		margin-top: 36px;
+		text-transform: none;
+		letter-spacing: 0.08em;
+		font-size: 15px;
+	}
+
+	@media (max-width: 959px) {
+		h2 {
+			font-size: 33.33px;
+		}
 	}
 
 	.copyright {
@@ -61,5 +65,6 @@ const location = ['Grímsnes – og Grafningshreppur', '805 – Iceland', 'Hafna
 
 	.copyright p {
 		font-size: 13px;
+		color: rgba(255, 255, 255, 0.6);
 	}
 </style>

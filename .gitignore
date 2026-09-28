@@ -28,3 +28,7 @@ pnpm-debug.log*
 # ~150 MB; both are re-fetched by `npm run snapshot` while the old site is still up.
 snapshot/wp-content/
 snapshot/wp-includes/
+
+# Full-quality photos dropped in for processing (see photos-inbox/README.md).
+photos-inbox/*
+!photos-inbox/README.md

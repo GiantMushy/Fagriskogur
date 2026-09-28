@@ -1,6 +1,6 @@
 ---
-// Uncode "media stack": three overlapping square photos. The back-left and front
-// photos drift at different speeds while scrolling (Uncode's parallax).
+// Uncode "media stack": three overlapping square photos. While scrolling, the back-left
+// photo drifts at Rellax speed 1 and the front one at speed 2, as on the old site.
 import { Image } from 'astro:assets';
 import { upload } from '../lib/site';
 
@@ -16,9 +16,13 @@ const shared = { alt: '', widths: [390, 600, 780], sizes: '(max-width: 959px) 65
 
 <div class="collage">
 	<Image class="back-right" src={upload(backRight)} {...shared} />
-	<Image class="back-left" src={upload(backLeft)} {...shared} />
-	<Image class="front" src={upload(front)} {...shared} />
+	<Image class="back-left" src={upload(backLeft)} data-parallax="1" {...shared} />
+	<Image class="front" src={upload(front)} data-parallax="2" {...shared} />
 </div>
+
+<script>
+	import '../scripts/parallax';
+</script>
 
 <style>
 	/* Geometry measured on the live site: 390px squares in a 600 × 573 column. */
@@ -49,28 +53,5 @@ const shared = { alt: '', widths: [390, 600, 780], sizes: '(max-width: 959px) 65
 		left: 17.5%;
 		top: 32.1%;
 		z-index: 2;
-	}
-
-	@supports (animation-timeline: view()) {
-		.back-left,
-		.front {
-			animation: drift linear both;
-			animation-timeline: view();
-		}
-		.back-left {
-			--drift: 20px;
-		}
-		.front {
-			--drift: 40px;
-		}
-	}
-
-	@keyframes drift {
-		from {
-			transform: translateY(var(--drift));
-		}
-		to {
-			transform: translateY(calc(-1 * var(--drift)));
-		}
 	}
 </style>

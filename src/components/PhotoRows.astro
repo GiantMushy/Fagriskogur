@@ -1,0 +1,109 @@
+---
+// Room photos in rows of two; an odd one out gets a row to itself. The photos in a row share
+// one height, so portrait and landscape shots sit side by side without cropping. Clicking a
+// photo opens it in the Lightbox (matched by its index in the page's photo list).
+import { Image } from 'astro:assets';
+import { upload, type Photo } from '../lib/site';
+
+interface Props {
+	photos: Photo[];
+	/** Index of the first photo in the page's full photo list. */
+	start: number;
+	alt: string;
+}
+
+const { photos, start, alt } = Astro.props;
+const rows = Array.from({ length: Math.ceil(photos.length / 2) }, (_, i) => photos.slice(i * 2, i * 2 + 2));
+---
+
+<div class="photos">
+	{
+		rows.map((row, r) => (
+			<div class:list={['row', { single: row.length === 1 }]}>
+				{row.map((photo, i) => {
+					const image = upload(photo.src);
+					return (
+						<figure style={`--aspect: ${(image.width / image.height).toFixed(4)}`}>
+							<button type="button" data-photo={start + r * 2 + i} aria-label="View larger">
+								<Image
+									src={image}
+									alt={photo.caption ? `${alt}: ${photo.caption}` : alt}
+									widths={[480, 720, 1080, 1600]}
+									sizes={row.length === 1 ? '(max-width: 1127px) 100vw, 1056px' : '(max-width: 569px) 100vw, (max-width: 1127px) 50vw, 528px'}
+									layout="none"
+								/>
+							</button>
+							{photo.caption && <figcaption>{photo.caption}</figcaption>}
+						</figure>
+					);
+				})}
+			</div>
+		))
+	}
+</div>
+
+<style>
+	.photos {
+		display: grid;
+		gap: 16px;
+	}
+
+	.row {
+		display: flex;
+		gap: 16px;
+	}
+
+	figure {
+		flex: var(--aspect) 1 0;
+		min-width: 0;
+		margin: 0;
+	}
+
+	/* A lone photo keeps to 80% of the screen height, so portraits don't tower. */
+	.single figure {
+		flex: none;
+		width: min(100%, 80vh * var(--aspect));
+		margin-inline: auto;
+	}
+
+	button {
+		display: block;
+		width: 100%;
+		padding: 0;
+		border: 0;
+		background: none;
+		overflow: hidden;
+		cursor: zoom-in;
+	}
+
+	img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: var(--aspect);
+		object-fit: cover;
+		transition: transform 0.6s ease;
+	}
+
+	button:hover img {
+		transform: scale(1.03);
+	}
+
+	figcaption {
+		margin-top: 12px;
+		font-family: var(--sans);
+		font-size: 13px;
+		font-weight: 500;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--heading);
+	}
+
+	@media (max-width: 569px) {
+		.row {
+			flex-direction: column;
+		}
+		figure {
+			flex: none;
+		}
+	}
+</style>

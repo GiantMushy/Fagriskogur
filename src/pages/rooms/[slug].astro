@@ -1,0 +1,360 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import PhotoRows from '../../components/PhotoRows.astro';
+import { GROUP_LABELS, href, roomUrl, rooms, upload, type Room } from '../../lib/site';
+
+export const getStaticPaths = (() => rooms.map((room) => ({ params: { slug: room.slug }, props: { room } }))) satisfies GetStaticPaths;
+
+const { room } = Astro.props as { room: Room };
+const cover = upload(room.cover);
+
+// A full-width hero needs a big photo. A small cover (the staff building's) opens the gallery instead.
+const heroPhoto = cover.width >= 1600;
+const sections = room.sections.map((section, i) =>
+	i === 0 && !heroPhoto ? { ...section, photos: [{ src: room.cover }, ...section.photos] } : section,
+);
+const photos = sections.flatMap((section) => section.photos);
+const starts = sections.map((_, i) => sections.slice(0, i).reduce((n, section) => n + section.photos.length, 0));
+
+// Previous/next walk every page in rooms.json order. "More" shows the next three of the same
+// kind: other bedrooms, or other lodge spaces (the staff building counts as the lodge here).
+const at = rooms.findIndex((r) => r.slug === room.slug);
+const prev = rooms[(at - 1 + rooms.length) % rooms.length];
+const next = rooms[(at + 1) % rooms.length];
+const peers = rooms.filter((r) => r.group === (room.group === 'bedrooms' ? 'bedrooms' : 'lodge'));
+const from = peers.findIndex((r) => r.slug === room.slug);
+const more = [1, 2, 3].map((n) => peers[(from + n) % peers.length]);
+---
+
+<Base title={`${room.name} – Fagriskogur`} description={room.sections[0].text[0]} overlayHeader>
+	<section class:list={['hero bg-dark', { photo: heroPhoto }]}>
+		{
+			heroPhoto && (
+				<Image
+					class="hero-bg"
+					src={cover}
+					alt=""
+					widths={[768, 1280, 1920, 2560]}
+					sizes="100vw"
+					layout="none"
+					priority
+				/>
+			)
+		}
+		<div class="hero-text">
+			<p class="eyebrow">{GROUP_LABELS[room.group]}</p>
+			<h1>{room.name}</h1>
+		</div>
+	</section>
+
+	<div class="sections">
+		{
+			sections.map((section, i) => (
+				<section>
+					<div class="container text">
+						{section.heading && <h2>{section.heading}</h2>}
+						<div class="prose lead">
+							{section.text.map((paragraph) => (
+								<p>{paragraph}</p>
+							))}
+						</div>
+						{i === 0 && room.facts && (
+							<dl class="facts">
+								{room.facts.map(([label, value]) => (
+									<div>
+										<dt>{label}</dt>
+										<dd>{value}</dd>
+									</div>
+								))}
+							</dl>
+						)}
+					</div>
+					{section.photos.length > 0 && (
+						<div class="container gallery">
+							<PhotoRows photos={section.photos} start={starts[i]} alt={room.name} />
+						</div>
+					)}
+				</section>
+			))
+		}
+	</div>
+
+	<section class="more bg-light">
+		<div class="container wide">
+			<h2 class="eyebrow">{room.group === 'bedrooms' ? 'More bedrooms' : 'More of the lodge'}</h2>
+			<ul>
+				{
+					more.map((item) => (
+						<li>
+							<a href={roomUrl(item)}>
+								<span class="thumb">
+									<Image
+										src={upload(item.cover)}
+										alt=""
+										widths={[360, 720]}
+										sizes="(max-width: 959px) 75vw, 400px"
+										layout="none"
+									/>
+								</span>
+								<h3>{item.name}</h3>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<nav class="pager" aria-label="Rooms">
+		<div class="container wide">
+			<a href={roomUrl(prev)} rel="prev">
+				<span aria-hidden="true">←</span><span class="label">{prev.name}</span>
+			</a>
+			<a class="all" href={href('/#rooms')} aria-label="All rooms">
+				<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+					<path
+						fill="currentColor"
+						d="M0 0h3v3H0zm4.5 0h3v3h-3zM9 0h3v3H9zM0 4.5h3v3H0zm4.5 0h3v3h-3zM9 4.5h3v3H9zM0 9h3v3H0zm4.5 0h3v3h-3zM9 9h3v3H9z"
+					/>
+				</svg>
+			</a>
+			<a href={roomUrl(next)} rel="next">
+				<span class="label">{next.name}</span><span aria-hidden="true">→</span>
+			</a>
+		</div>
+	</nav>
+
+	<Lightbox photos={photos} alt={room.name} />
+</Base>
+
+<style>
+	.hero {
+		position: relative;
+		display: grid;
+		align-items: end;
+		justify-items: center;
+		padding: calc(var(--header-h) + 72px) var(--gutter) 96px;
+		overflow: hidden;
+		text-align: center;
+	}
+
+	.hero.photo {
+		min-height: 75vh;
+		min-height: 75svh;
+		padding-bottom: 72px;
+	}
+
+	.hero-bg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	/* Darkens the top for the header and the bottom for the title. */
+	.hero.photo::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			rgba(27, 29, 31, 0.45),
+			rgba(27, 29, 31, 0) 30%,
+			rgba(27, 29, 31, 0) 45%,
+			rgba(27, 29, 31, 0.8)
+		);
+	}
+
+	.hero-text {
+		position: relative;
+		z-index: 1;
+	}
+
+	.hero .eyebrow {
+		color: rgba(255, 255, 255, 0.8);
+	}
+
+	h1 {
+		margin-top: 20px;
+		font-family: var(--serif);
+		font-size: 75px;
+		font-weight: 400;
+		line-height: 1.05;
+	}
+
+	@media (max-width: 959px) {
+		h1 {
+			font-size: 50px;
+		}
+	}
+
+	@media (max-width: 569px) {
+		h1 {
+			font-size: 38px;
+		}
+	}
+
+	.sections {
+		display: grid;
+		gap: var(--section-pad);
+		padding-block: 96px var(--section-pad);
+	}
+
+	@media (max-width: 569px) {
+		.sections {
+			padding-top: 54px;
+		}
+	}
+
+	.text {
+		max-width: calc(760px + 2 * var(--gutter));
+	}
+
+	.text h2 {
+		margin-bottom: 24px;
+		font-family: var(--serif);
+		font-size: 40px;
+		font-weight: 400;
+		line-height: 1.2;
+		color: var(--heading);
+	}
+
+	@media (max-width: 959px) {
+		.text h2 {
+			font-size: 30px;
+		}
+	}
+
+	.facts {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: 24px 36px;
+		margin: 48px 0 0;
+		padding-block: 28px;
+		border-block: 1px solid var(--border);
+	}
+
+	dt {
+		font-size: 12px;
+		font-weight: 500;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+	}
+
+	dd {
+		margin: 6px 0 0;
+		font-size: 17px;
+		line-height: 1.4;
+		color: var(--heading);
+	}
+
+	.gallery {
+		max-width: calc(1056px + 2 * var(--gutter));
+		margin-top: 54px;
+	}
+
+	.wide {
+		max-width: calc(1056px + 2 * var(--gutter));
+	}
+
+	.more {
+		padding-block: 96px;
+	}
+
+	.more .eyebrow {
+		margin-bottom: 36px;
+		color: var(--heading);
+		text-align: center;
+	}
+
+	.more ul {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 36px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.thumb {
+		display: block;
+		overflow: hidden;
+	}
+
+	.thumb :global(img) {
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+		transition: transform 0.6s ease;
+	}
+
+	.more a:hover :global(img) {
+		transform: scale(1.05);
+	}
+
+	.more h3 {
+		margin-top: 18px;
+		font-family: var(--serif);
+		font-size: 26px;
+		font-weight: 400;
+		line-height: 1.2;
+		color: var(--heading);
+	}
+
+	/* Swipeable strip on smaller screens. */
+	@media (max-width: 959px) {
+		.more {
+			padding-block: 72px;
+		}
+		.more ul {
+			grid-auto-flow: column;
+			grid-template-columns: none;
+			grid-auto-columns: 75%;
+			gap: 18px;
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			scrollbar-width: none;
+		}
+		.more li {
+			scroll-snap-align: start;
+		}
+	}
+
+	.pager {
+		border-top: 1px solid var(--border);
+		font-size: 15px;
+		font-weight: 500;
+		color: var(--heading);
+	}
+
+	.pager .container {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		padding-block: 36px;
+	}
+
+	.pager a {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.pager a:hover {
+		opacity: 0.6;
+	}
+
+	.pager [rel='next'] {
+		justify-self: end;
+	}
+
+	@media (max-width: 569px) {
+		.pager .label {
+			display: none;
+		}
+	}
+</style>

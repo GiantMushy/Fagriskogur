@@ -4,9 +4,6 @@ import '@fontsource/eb-garamond/500.css';
 import '@fontsource/eb-garamond/600.css';
 import '@fontsource/barlow/400.css';
 import '@fontsource/barlow/500.css';
-import '@fontsource/jost/400.css';
-import '@fontsource/jost/500.css';
-import '@fontsource/inter/600.css';
 import '../styles/global.css';
 import { getImage } from 'astro:assets';
 import AccessGate from '../components/AccessGate.astro';
@@ -18,7 +15,7 @@ import { href, upload } from '../lib/site';
 interface Props {
 	title: string;
 	description?: string;
-	/** Transparent header over a full-screen hero (homepage). */
+	/** Transparent header over a hero (homepage and room pages). */
 	overlayHeader?: boolean;
 }
 
@@ -46,8 +43,9 @@ const ogImage = await getImage({ src: upload('2024/12/1Bakvid_Mars2024-scaled.jp
 		<meta name="robots" content="noindex, nofollow" />
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
-		<link rel="icon" href={href('/favicon-32.webp')} sizes="32x32" />
-		<link rel="icon" href={href('/icon-192.webp')} sizes="192x192" />
+		<link rel="icon" href={href('/favicon-32.png')} sizes="32x32" />
+		<link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+		<link rel="icon" href={href('/icon-192.png')} sizes="192x192" />
 		<link rel="apple-touch-icon" href={href('/apple-touch-icon.png')} />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={title} />

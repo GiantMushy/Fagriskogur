@@ -3,16 +3,19 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Collage from '../components/Collage.astro';
 import RoomsList from '../components/RoomsList.astro';
-import { upload } from '../lib/site';
+import { roomUrl, rooms, upload } from '../lib/site';
 
-// The destination links are as on the live site (three of them point at the wrong place).
+const glance = ['5 bedrooms', 'Sleeps 10', '5 bathrooms', 'Hot tubs & sauna', 'Chef & staff'];
+const staffBuilding = rooms.find((room) => room.group === 'service')!;
+
+// Every other card drifts while scrolling (Gullfoss, Þingvellir, Reykholt), as on the old site.
 const attractions = [
-	{ name: 'Gullfoss', url: 'http://gullfoss.is', image: '2024/12/Gullfoss.webp' },
+	{ name: 'Gullfoss', url: 'https://gullfoss.is/', image: '2024/12/Gullfoss.webp' },
 	{ name: 'Geysir', url: 'https://www.south.is/en/place/geysir-geothermal-area', image: '2024/12/Geysir-1.png' },
-	{ name: 'Þingvellir', url: 'http://thingvellir.is', image: '2024/12/thingvellir-scaled.avif' },
-	{ name: 'Ice Caves', url: 'https://www.south.is/en/place/geysir-geothermal-area', image: '2024/12/IceCave-1.png' },
-	{ name: 'Reykholt', url: 'http://gullfoss.is', image: '2024/12/Reykholt_2024.jpeg' },
-	{ name: 'Friðheimar', url: 'https://www.south.is/en/place/geysir-geothermal-area', image: '2024/12/Fridheimar-19.jpeg' },
+	{ name: 'Þingvellir', url: 'https://www.thingvellir.is/en/', image: '2024/12/thingvellir-scaled.avif' },
+	{ name: 'Ice Caves', url: 'https://guidetoiceland.is/book-trips-holiday/day-tours/langjokull-tours', image: '2024/12/IceCave-1.png' },
+	{ name: 'Reykholt', url: 'https://www.south.is/en/destinations/towns/reykholt', image: '2024/12/Reykholt_2024.jpeg' },
+	{ name: 'Friðheimar', url: 'https://fridheimar.is/', image: '2024/12/Fridheimar-19.jpeg' },
 ];
 ---
 
@@ -31,6 +34,9 @@ const attractions = [
 			<h1>Fagriskógur Lodge</h1>
 			<p>Golden Circle, Iceland</p>
 		</div>
+		<ul class="glance" aria-label="At a glance">
+			{glance.map((item) => <li>{item}</li>)}
+		</ul>
 	</section>
 
 	<section class="section">
@@ -67,7 +73,7 @@ const attractions = [
 	</section>
 
 	<section class="section side-label-section">
-		<span class="side-label left" aria-hidden="true">Ancient History</span>
+		<span class="side-label left" aria-hidden="true">Since 1942</span>
 		<div class="container split top">
 			<Collage backRight="2024/12/old4.png" backLeft="2024/12/old1.png" front="2024/12/old3.png" />
 			<div class="stack lead">
@@ -91,7 +97,7 @@ const attractions = [
 		<span class="side-label right" aria-hidden="true">Service</span>
 		<div class="container split media-first-on-mobile">
 			<div class="stack lead">
-				<h2 class="heading sans">Unique emotions with genuine hospitality</h2>
+				<h2 class="heading sans">Genuine Icelandic hospitality</h2>
 				<div class="prose">
 					<p>
 						At Fagriskogur Lodge, your comfort and satisfaction are our top priorities. Our dedicated staff, including
@@ -105,6 +111,7 @@ const attractions = [
 						area and a crackling fireplace, offers the perfect setting for cozy evenings with family and friends.
 					</p>
 				</div>
+				<a class="text-link" href={roomUrl(staffBuilding)}>Where our staff stay <span aria-hidden="true">→</span></a>
 			</div>
 			<Collage
 				backRight="2024/12/5aIMG_4069-scaled.jpg"
@@ -126,7 +133,7 @@ const attractions = [
 					dropping moments with the sky above us as the theatre.
 				</p>
 				<p>
-					These pictures are taken 20 minutes apart on an iphone from the balcony one October morning. No photoshop or
+					These pictures are taken 20 minutes apart on an iPhone from the balcony one October morning. No photoshop or
 					other tricks – strictly honest unedited pictures.
 				</p>
 			</div>
@@ -136,7 +143,7 @@ const attractions = [
 			</div>
 			<p class="caption">
 				And these photos of Aurora Borealis are taken from the Lodge on a clear sky January night. Again, with no digital
-				trickery
+				trickery.
 			</p>
 			<div class="photo-pair">
 				<Image
@@ -155,10 +162,6 @@ const attractions = [
 			<div class="narrow prose">
 				<h2>Golden Circle</h2>
 				<p>
-					Ideally situated on the famed Golden Circle route, Fagriskogur Lodge offers easy access to some of Iceland’s
-					most iconic attractions.
-				</p>
-				<p>
 					From the majestic Gullfoss waterfall to the bubbling geothermal wonders of Geysir and the historic grounds of
 					Thingvellir, every moment promises to be a journey of discovery and wonder. Nearby, the charming town of
 					Selfoss beckons with its quaint shops and cultural delights, while the secret lagoon of Fludir offers a
@@ -169,8 +172,8 @@ const attractions = [
 			</div>
 			<ul class="attractions">
 				{
-					attractions.map((place) => (
-						<li>
+					attractions.map((place, i) => (
+						<li data-parallax={i % 2 === 0 ? 2 : undefined}>
 							<a href={place.url} target="_blank" rel="noopener">
 								<Image
 									src={upload(place.image)}
@@ -188,6 +191,10 @@ const attractions = [
 		</div>
 	</section>
 </Base>
+
+<script>
+	import '../scripts/parallax';
+</script>
 
 <style>
 	.hero {
@@ -242,6 +249,61 @@ const attractions = [
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
 		animation: rise 1s 0.1s ease both;
+	}
+
+	/* Key facts along the bottom of the hero. */
+	.glance {
+		position: absolute;
+		inset: auto 0 48px;
+		z-index: 1;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 12px 0;
+		margin: 0;
+		padding: 0 var(--gutter);
+		list-style: none;
+		font-family: var(--sans);
+		font-size: 13px;
+		font-weight: 500;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.8);
+		animation: rise 1s 0.2s ease both;
+	}
+
+	.glance li + li::before {
+		content: '·';
+		margin-inline: 18px;
+	}
+
+	@media (max-width: 569px) {
+		.glance {
+			bottom: 32px;
+			gap: 8px 16px;
+			font-size: 11px;
+			letter-spacing: 0.15em;
+		}
+		.glance li + li::before {
+			content: none;
+		}
+	}
+
+	.text-link {
+		display: inline-block;
+		padding-bottom: 4px;
+		border-bottom: 1px solid currentColor;
+		font-family: var(--sans);
+		font-size: 14px;
+		font-weight: 500;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--heading);
+		transition: opacity 0.2s;
+	}
+
+	.text-link:hover {
+		opacity: 0.6;
 	}
 
 	@media (max-width: 959px) {

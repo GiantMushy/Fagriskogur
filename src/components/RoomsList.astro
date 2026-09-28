@@ -1,32 +1,42 @@
 ---
-// "The Rooms": big serif titles; hovering one shows that room's photo under the cursor
-// and dims the other titles (Uncode's hover-image title index).
+// The rooms, as two lists (bedrooms, then the lodge's shared spaces): big serif titles; hovering
+// one shows that room's photo under the cursor and dims the other titles (Uncode's hover-image
+// title index).
 import { Image } from 'astro:assets';
-import { href, rooms, upload } from '../lib/site';
+import { GROUP_LABELS, roomUrl, rooms, upload } from '../lib/site';
+
+const groups = (['bedrooms', 'lodge'] as const).map((group) => ({
+	label: GROUP_LABELS[group],
+	rooms: rooms.filter((room) => room.group === group),
+}));
 ---
 
 <section class="rooms bg-dark" id="rooms">
 	<div class="container">
-		<h2 class="eyebrow">The Rooms</h2>
-		<ul>
-			{
-				rooms.map((room) => (
-					<li>
-						<a href={href(`/portfolio/${room.slug}/`)}>
-							<span>{room.name}</span>
-							<Image
-								class="preview"
-								src={upload(room.cover)}
-								alt=""
-								widths={[480, 720, 960, 1440]}
-								sizes="50vw"
-								layout="none"
-							/>
-						</a>
-					</li>
-				))
-			}
-		</ul>
+		{
+			groups.map((group) => (
+				<div class="group">
+					<h2 class="eyebrow">{group.label}</h2>
+					<ul>
+						{group.rooms.map((room) => (
+							<li>
+								<a href={roomUrl(room)}>
+									<span>{room.name}</span>
+									<Image
+										class="preview"
+										src={upload(room.cover)}
+										alt=""
+										widths={[480, 720, 960, 1440]}
+										sizes="50vw"
+										layout="none"
+									/>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			))
+		}
 	</div>
 </section>
 
@@ -50,12 +60,10 @@ import { href, rooms, upload } from '../lib/site';
 
 	.eyebrow {
 		margin-bottom: 54px;
-		font-family: var(--sans);
-		font-size: 14px;
-		font-weight: 500;
-		line-height: 1.2;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
+	}
+
+	.group + .group {
+		margin-top: 108px;
 	}
 
 	ul {
@@ -99,7 +107,7 @@ import { href, rooms, upload } from '../lib/site';
 	}
 
 	@media (hover: hover) {
-		ul:has(a:hover) span {
+		.rooms:has(a:hover) span {
 			opacity: 0.3;
 		}
 		a:hover span {

@@ -1,16 +1,15 @@
-/* Values taken from the live WordPress/Uncode site (computed styles at 1424px wide). */
+/* Layout values taken from the live WordPress/Uncode site (computed styles at 1424px wide).
+   Body text is Barlow in a darker grey than the original Arial #777, which was hard to read. */
 :root {
 	--dark: #1b1d1f;
 	--light: #f7f7f7;
 	--heading: #303133;
-	--text: #777;
+	--text: #595c5f;
 	--border: #eaeaea;
 
 	--serif: 'EB Garamond', Georgia, serif;
 	--sans: 'Barlow', Arial, sans-serif;
-	--ui: 'Jost', Arial, sans-serif;
-	--menu: 'Inter', Arial, sans-serif;
-	--body: Arial, Helvetica, sans-serif;
+	--body: var(--sans);
 
 	--gutter: 36px;
 	--container: 1272px;
@@ -47,7 +46,7 @@ body {
 	background: #fff;
 	color: var(--text);
 	font-family: var(--body);
-	font-size: 15px;
+	font-size: 16px;
 	line-height: 1.75;
 	-webkit-font-smoothing: antialiased;
 }
@@ -126,6 +125,44 @@ img {
 .lead p {
 	font-size: 18px;
 	line-height: 1.75;
+}
+
+/* Outlined call-to-action, e.g. "Plan your stay". Inverts on hover. */
+.button {
+	display: inline-block;
+	padding: 14px 28px;
+	border: 1px solid currentColor;
+	font-family: var(--sans);
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	transition:
+		background-color 0.2s,
+		border-color 0.2s,
+		color 0.2s;
+}
+
+.button:hover {
+	border-color: var(--heading);
+	background: var(--heading);
+	color: #fff;
+}
+
+.bg-dark .button:hover {
+	border-color: #fff;
+	background: #fff;
+	color: var(--dark);
+}
+
+.eyebrow {
+	font-family: var(--sans);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.2;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
 }
 
 .stack > * + * {

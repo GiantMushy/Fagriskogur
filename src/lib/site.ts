@@ -18,7 +18,7 @@ export const rooms = roomsData as Room[];
 export const roomUrl = (room: Room) => href(`/rooms/${room.slug}/`);
 export const GROUP_LABELS = { bedrooms: 'Bedrooms', lodge: 'The Lodge', service: 'Service' } as const;
 
-/** Internal link that works both under /Fagriskogur/ (GitHub preview) and at the domain root. */
+/** Internal link that respects Astro's `base` setting (the site is at the domain root today). */
 export function href(path: string) {
 	return import.meta.env.BASE_URL.replace(/\/$/, '') + path;
 }

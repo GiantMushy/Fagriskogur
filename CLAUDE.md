@@ -21,7 +21,7 @@ Built with Astro and deployed to GitHub Pages by `.github/workflows/deploy.yml` 
 
 ## Things to know
 
-- Every internal link must go through `href()`. Until the DNS cutover the site is served under the `/Fagriskogur` base path.
+- The site is served at the domain root (https://fagriskogur.is). Internal links still go through `href()`, so a base path could be reintroduced.
 - The old site is ~95% untouched Uncode demo content. Only the homepage and the `/portfolio/*` room pages were real.
   `/thorvardur/` is an unlinked test page and was not rebuilt.
 - Every page sits behind a 6-digit access code (`src/lib/access.ts`, `src/components/AccessGate.astro`). The owner only wants
@@ -30,12 +30,18 @@ Built with Astro and deployed to GitHub Pages by `.github/workflows/deploy.yml` 
 
 ## Commands
 
-- `npm run build` then `npm run preview` – check the production build locally (http://localhost:4321/Fagriskogur/).
+- `npm run build` then `npm run preview` – check the production build locally (http://localhost:4321/).
 - `npm run dev` – dev server (slow first load, because images are processed on demand).
 
-## DNS cutover (not done yet)
+## Custom domain
 
-1. In `astro.config.mjs`, set `site: 'https://fagriskogur.is'` and `BASE = ''`, and add `public/CNAME` containing `fagriskogur.is`.
-2. Verify the domain under GitHub account settings → Pages, which adds a `_github-pages-challenge-GiantMushy` TXT record.
-3. At 1984: replace the apex A record `185.112.145.110` with GitHub's four A and four AAAA records, and point the `www` CNAME at `giantmushy.github.io`.
-4. Set the custom domain in the repo's Pages settings, then enable Enforce HTTPS.
+- GitHub side (done): `site` is `https://fagriskogur.is` with no base path, and the repo's Pages custom domain is `fagriskogur.is`.
+  There's no `public/CNAME`, because GitHub ignores it for Actions deploys.
+- 1984 side (the owner does this in 1984.hosting → FreeDNS → DNS - Manage Domains):
+  - `@`: A records 185.199.108.153, .109, .110, .111 and AAAA 2606:50c0:8000::153 … 8003::153, replacing A 185.112.145.110.
+  - `www`: CNAME to `giantmushy.github.io`.
+  - `*`: this wildcard was a CNAME to the apex. Change it to A 185.112.145.110, so other subdomains (mail etc.) stay on 1984 and don't point at GitHub.
+  - Add TXT `_github-pages-challenge-GiantMushy` with the value from GitHub account settings → Pages.
+  - Leave MX, SPF and everything else alone.
+- After that: Verify the domain (account settings), use "Check again" in the repo's Pages settings, then enable Enforce HTTPS.
+- To undo: set `@` back to A 185.112.145.110 and `www` back to a CNAME to fagriskogur.is. WordPress is still on 1984, untouched.

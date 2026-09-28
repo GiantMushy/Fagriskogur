@@ -1,13 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// Until the DNS for fagriskogur.is points at GitHub Pages, the site is served from
-// https://giantmushy.github.io/Fagriskogur/. At cutover: set `site` to
-// 'https://fagriskogur.is', set BASE to '', and add public/CNAME containing fagriskogur.is.
-const BASE = '/Fagriskogur';
-
 // The old WordPress room addresses (/portfolio/<old>/) forward to the new ones, so saved links
-// keep working. Astro doesn't add the base path to redirect targets, so it's added here.
+// keep working.
 const oldRoomSlugs = {
 	master: 'thingvellir-suite',
 	'southern-bedroom': 'gullfoss-bedroom',
@@ -22,14 +17,13 @@ const oldRoomSlugs = {
 	'staff-building': 'staff-building',
 };
 
+// The custom domain is set in the repo's Settings → Pages. A public/CNAME file isn't needed:
+// GitHub ignores it for sites deployed by an Actions workflow.
 export default defineConfig({
-	site: 'https://giantmushy.github.io',
-	base: BASE || '/',
+	site: 'https://fagriskogur.is',
 	// URLs end in a slash, as they did on WordPress.
 	trailingSlash: 'always',
-	redirects: Object.fromEntries(
-		Object.entries(oldRoomSlugs).map(([from, to]) => [`/portfolio/${from}/`, `${BASE}/rooms/${to}/`]),
-	),
+	redirects: Object.fromEntries(Object.entries(oldRoomSlugs).map(([from, to]) => [`/portfolio/${from}/`, `/rooms/${to}/`])),
 	image: {
 		responsiveStyles: true,
 	},

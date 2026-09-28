@@ -20,6 +20,8 @@ Built with Astro and deployed to GitHub Pages by `.github/workflows/deploy.yml` 
 - Every internal link must go through `href()`. Until the DNS cutover the site is served under the `/Fagriskogur` base path.
 - The old site is ~95% untouched Uncode demo content. Only the homepage and the `/portfolio/*` room pages are real.
   `/thorvardur/` is an unlinked test page and was not rebuilt.
+- Every page sits behind a 6-digit access code (`src/lib/access.ts`, `src/components/AccessGate.astro`). The owner only wants
+  invited visitors, but this is a courtesy lock, not security: the content still ships in the HTML. Pages are `noindex`.
 - Email for @fagriskogur.is is hosted at 1984. The DNS cutover must leave MX/SPF alone, and the 1984 plan must not be cancelled.
 
 ## Commands

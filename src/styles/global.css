@@ -136,6 +136,15 @@ img {
 	margin-top: 1.5em;
 }
 
+/* Until the access code is entered, only the gate is shown (see AccessGate.astro). */
+html.locked {
+	overflow: hidden;
+}
+
+html.locked body > :not(.gate) {
+	display: none !important;
+}
+
 .visually-hidden {
 	position: absolute;
 	width: 1px;

@@ -1,0 +1,191 @@
+---
+// Full-screen code prompt shown while <html> has the `locked` class (see Base.astro).
+import { Image } from 'astro:assets';
+import { ACCESS_HASH, ACCESS_SALT, ACCESS_STORAGE_KEY } from '../lib/access';
+import { upload } from '../lib/site';
+---
+
+<div class="gate bg-dark" data-hash={ACCESS_HASH} data-salt={ACCESS_SALT} data-key={ACCESS_STORAGE_KEY}>
+	<Image
+		class="gate-bg"
+		src={upload('2024/12/1Bakvid_Mars2024-scaled.jpg')}
+		alt=""
+		widths={[768, 1280, 1920]}
+		sizes="100vw"
+		layout="none"
+	/>
+	<form class="gate-form" novalidate>
+		<h1>Fagriskógur Lodge</h1>
+		<p class="eyebrow">Golden Circle, Iceland</p>
+		<label for="access-code">Enter your access code</label>
+		<input
+			id="access-code"
+			name="code"
+			type="text"
+			inputmode="numeric"
+			pattern="[0-9]*"
+			maxlength="6"
+			autocomplete="off"
+			placeholder="••••••"
+			aria-describedby="access-error"
+		/>
+		<p id="access-error" class="error" aria-live="polite"></p>
+		<noscript><p class="error">Please turn on JavaScript to enter the code.</p></noscript>
+	</form>
+</div>
+
+<script>
+	const gate = document.querySelector<HTMLElement>('.gate')!;
+	const input = gate.querySelector<HTMLInputElement>('input')!;
+	const error = gate.querySelector<HTMLElement>('.error')!;
+	const { hash, salt, key } = gate.dataset as { hash: string; salt: string; key: string };
+
+	async function sha256(text: string) {
+		const bytes = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)));
+		return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+	}
+
+	async function check() {
+		if ((await sha256(salt + input.value)) === hash) {
+			try {
+				localStorage.setItem(key, hash);
+			} catch {
+				// Storage blocked (private mode): stay unlocked for this page only.
+			}
+			document.documentElement.classList.remove('locked');
+			return;
+		}
+		error.textContent = 'That code isn’t right. Please try again.';
+		input.classList.remove('shake');
+		void input.offsetWidth;
+		input.classList.add('shake');
+		input.select();
+	}
+
+	input.addEventListener('input', () => {
+		input.value = input.value.replace(/\D/g, '').slice(0, 6);
+		error.textContent = '';
+		if (input.value.length === 6) check();
+	});
+	gate.querySelector('form')!.addEventListener('submit', (event) => {
+		event.preventDefault();
+		check();
+	});
+	if (document.documentElement.classList.contains('locked')) input.focus();
+</script>
+
+<style>
+	.gate {
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+		display: none;
+		place-items: center;
+		overflow: hidden;
+		text-align: center;
+	}
+
+	:global(html.locked) .gate {
+		display: grid;
+	}
+
+	.gate-bg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center bottom;
+		opacity: 0.35;
+	}
+
+	.gate-form {
+		position: relative;
+		display: grid;
+		justify-items: center;
+		padding: var(--gutter);
+	}
+
+	h1 {
+		font-family: var(--serif);
+		font-size: 66.67px;
+		font-weight: 400;
+		line-height: 1;
+	}
+
+	.eyebrow,
+	label {
+		font-family: var(--serif);
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 1;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+	}
+
+	.eyebrow {
+		margin-top: 24px;
+	}
+
+	label {
+		margin-top: 72px;
+		font-family: var(--sans);
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	input {
+		width: 8.5em;
+		margin-top: 18px;
+		padding: 10px 0 10px 0.5em;
+		border: 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+		background: transparent;
+		color: #fff;
+		font-family: var(--sans);
+		font-size: 32px;
+		letter-spacing: 0.5em;
+		text-align: center;
+		outline: none;
+		transition: border-color 0.2s;
+	}
+
+	input:focus {
+		border-bottom-color: #fff;
+	}
+
+	input::placeholder {
+		color: rgba(255, 255, 255, 0.3);
+	}
+
+	.error {
+		min-height: 1.75em;
+		margin-top: 18px;
+		font-family: var(--sans);
+		font-size: 15px;
+		color: #f2b8b5;
+	}
+
+	.shake {
+		animation: shake 0.4s;
+	}
+
+	@keyframes shake {
+		20%,
+		60% {
+			transform: translateX(-8px);
+		}
+		40%,
+		80% {
+			transform: translateX(8px);
+		}
+	}
+
+	@media (max-width: 569px) {
+		h1 {
+			font-size: 40px;
+		}
+		label {
+			margin-top: 54px;
+		}
+	}
+</style>

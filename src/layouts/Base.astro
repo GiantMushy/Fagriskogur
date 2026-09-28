@@ -9,8 +9,10 @@ import '@fontsource/jost/500.css';
 import '@fontsource/inter/600.css';
 import '../styles/global.css';
 import { getImage } from 'astro:assets';
+import AccessGate from '../components/AccessGate.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { ACCESS_HASH, ACCESS_STORAGE_KEY } from '../lib/access';
 import { href, upload } from '../lib/site';
 
 interface Props {
@@ -30,11 +32,18 @@ const ogImage = await getImage({ src: upload('2024/12/1Bakvid_Mars2024-scaled.jp
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="locked">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Unlock before first paint if this browser already entered the code, so the gate never flashes. -->
+		<script is:inline define:vars={{ hash: ACCESS_HASH, key: ACCESS_STORAGE_KEY }}>
+			try {
+				if (localStorage.getItem(key) === hash) document.documentElement.classList.remove('locked');
+			} catch {}
+		</script>
 		<title>{title}</title>
+		<meta name="robots" content="noindex, nofollow" />
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
 		<link rel="icon" href={href('/favicon-32.webp')} sizes="32x32" />
@@ -48,6 +57,7 @@ const ogImage = await getImage({ src: upload('2024/12/1Bakvid_Mars2024-scaled.jp
 		<meta name="generator" content={Astro.generator} />
 	</head>
 	<body>
+		<AccessGate />
 		<Header overlay={overlayHeader} />
 		<main>
 			<slot />
